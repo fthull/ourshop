@@ -9,7 +9,6 @@ if (!isset($_SESSION['login'])) {
     exit;
 }
 
-// DEFINISI PRIMARY KEY
 $primary_key = 'id_barang'; 
 
 // Proses Edit Barang
@@ -69,97 +68,78 @@ $result = $conn->query("SELECT * FROM barang ORDER BY nama ASC");
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent: #3b82f6;
+            --table-header: #0f172a;
         }
 
         body { 
             font-family: 'Inter', sans-serif;
             background-color: var(--dash-bg);
             color: var(--text-main);
-            overflow-x: hidden;
         }
 
         .app-wrapper { display: flex; min-height: 100vh; }
+        .content-wrapper { flex: 1; padding: 30px; margin-left: 280px; transition: 0.3s; }
 
-        .content-wrapper { 
-            flex: 1; 
-            padding: 30px; 
-            margin-left: 280px; 
-            transition: 0.3s;
+        /* === CARD & GLASSMORPHISM === */
+        .card { 
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        .card-header { 
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--card-border);
+            padding: 20px;
         }
 
-    /* Fokus pada Table Dark Mode */
-    .card {
-        background: rgba(30, 41, 59, 0.7); /* Background kartu sedikit lebih terang dari body */
-        border: 1px solid rgba(255, 255, 255, 0.05);
-    }
+        /* === DARK TABLE STYLE (CONSISTENT) === */
+        .table-dark-custom { color: #cbd5e1; margin-bottom: 0; }
+        .table-dark-custom thead th {
+            background-color: var(--table-header);
+            color: #6366f1; /* Neon Purple Accent */
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            padding: 18px 15px;
+            border: none;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.2);
+        }
+        .table-dark-custom tbody td {
+            background-color: transparent;
+            border-bottom: 1px solid var(--card-border);
+            padding: 16px 15px;
+            vertical-align: middle;
+            color: #e2e8f0;
+        }
+        .table-dark-custom tbody tr:hover { 
+            background-color: rgba(99, 102, 241, 0.05); 
+            transition: 0.3s; 
+        }
 
-    .table {
-        color: #142439; /* Warna teks abu-abu terang */
-        border-color: rgba(255, 255, 255, 0.05);
-    }
-
-    /* Header Tabel Lebih Solid & Gelap */
-    .table thead th {
-        background-color: #0f172a !important; /* Warna paling gelap untuk header */
-        color: #6366f1 !important; /* Warna ungu/biru neon untuk judul kolom */
-        font-weight: 700;
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        letter-spacing: 0.05em;
-        border-bottom: 2px solid rgba(99, 102, 241, 0.2) !important;
-        padding: 18px 15px;
-    }
-
-    /* Efek Zebra & Hover */
-    .table-striped tbody tr:nth-of-type(odd) {
-        background-color: rgba(255, 255, 255, 0.01);
-    }
-
-    .table-hover tbody tr:hover {
-        background-color: rgba(99, 102, 241, 0.05) !important; /* Highlight tipis warna biru */
-        transition: 0.2s;
-    }
-
-    .table tbody td {
-        padding: 16px 15px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        vertical-align: middle;
-    }
-
-    /* Styling Teks & Badge di dalam tabel */
-    .text-primary-neon {
-        color: #818cf8 !important;
-        font-weight: 600;
-    }
-
-    .badge-dark-outline {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: #cbd5e1;
-    }
         /* --- Form Inputs (Dark Style) --- */
         .form-control {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--card-border);
             color: #fff;
             border-radius: 10px;
-            padding: 10px 15px;
         }
         .form-control:focus {
             background: rgba(255, 255, 255, 0.08);
             border-color: var(--accent);
-            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+            box-shadow: none;
             color: #fff;
         }
-        label { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 5px; }
 
         /* --- Badges --- */
         .badge-baik { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
         .badge-rusak { background: rgba(244, 63, 94, 0.1); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.2); }
+        .badge-stok { background: #334155; color: #f8fafc; }
 
-        /* --- Buttons --- */
-        .btn-primary { background: var(--accent); border: none; border-radius: 10px; padding: 10px 20px; font-weight: 600; }
-        .btn-warning { background: #f59e0b; border: none; color: #fff; border-radius: 8px; }
+        /* --- Modal Style --- */
+        .modal-content { background: #1e293b; border: 1px solid var(--card-border); color: white; }
+        .btn-close-white { filter: invert(1) grayscale(100%) brightness(200%); }
 
         @media (max-width: 992px) { .content-wrapper { margin-left: 0; } }
     </style>
@@ -171,17 +151,17 @@ $result = $conn->query("SELECT * FROM barang ORDER BY nama ASC");
 
     <div class="content-wrapper">
         <section class="mb-4 d-flex justify-content-between align-items-center">
-            <h2 class="fw-bold"><i class="fas fa-boxes me-2 text-primary"></i>Manajemen Barang</h2>
-            <div class="text-muted small">Total: <?= $result->num_rows ?> Jenis Barang</div>
+            <h2 class="fw-bold"><i class="fas fa-boxes me-2 text-primary"></i>Data Inventaris</h2>
+            <div class="text-muted small">Total: <span class="text-white fw-bold"><?= $result->num_rows ?></span> Item</div>
         </section>
 
         <?= displayAlert(); ?>
 
         <?php if ($edit_data): ?>
-        <div class="card mb-4 animate__animated animate__fadeInDown">
+        <div class="card shadow">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h3>Edit Barang: <?= htmlspecialchars($edit_data['nama']) ?></h3>
-                <span class="badge bg-primary px-3 py-2">Maks Stok: <?= $edit_data['stok'] ?></span>
+                <h5 class="m-0 fw-bold text-warning"><i class="fas fa-edit me-2"></i>Edit Barang: <?= htmlspecialchars($edit_data['nama']) ?></h5>
+                <span class="badge bg-primary">Stok Sistem: <?= $edit_data['stok'] ?></span>
             </div>
             <div class="card-body">
                 <form method="POST" id="formEdit">
@@ -190,23 +170,23 @@ $result = $conn->query("SELECT * FROM barang ORDER BY nama ASC");
                     
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label>Nama Barang</label>
+                            <label class="small text-muted">Nama Barang</label>
                             <input type="text" name="nama" class="form-control" value="<?= $edit_data['nama'] ?>" required>
                         </div>
                         <div class="col-md-2">
-                            <label>Stok Baik</label>
+                            <label class="small text-muted">Kondisi Baik</label>
                             <input type="number" name="stok_baik" id="input_baik" class="form-control" value="<?= $edit_data['stok_baik'] ?>" min="0">
                         </div>
                         <div class="col-md-2">
-                            <label>Stok Rusak</label>
+                            <label class="small text-muted">Kondisi Rusak</label>
                             <input type="number" name="stok_rusak" id="input_rusak" class="form-control" value="<?= $edit_data['stok_rusak'] ?>" min="0">
                         </div>
                         <div class="col-md-2">
-                            <label>Harga Satuan</label>
+                            <label class="small text-muted">Harga Satuan</label>
                             <input type="number" name="harga" class="form-control" value="<?= $edit_data['harga'] ?>" required>
                         </div>
                         <div class="col-md-2 d-flex align-items-end">
-                            <button type="submit" name="ubah_barang" class="btn btn-primary w-100"><i class="fas fa-save me-2"></i>Update</button>
+                            <button type="submit" name="ubah_barang" class="btn btn-primary w-100 shadow"><i class="fas fa-save me-2"></i>Simpan</button>
                         </div>
                     </div>
                 </form>
@@ -214,18 +194,18 @@ $result = $conn->query("SELECT * FROM barang ORDER BY nama ASC");
         </div>
         <?php endif; ?>
 
-        <div class="card">
+        <div class="card shadow">
             <div class="card-body p-0">
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table table-dark-custom align-middle">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th width="50">No</th>
                                 <th>Nama Barang</th>
                                 <th>Stok Total</th>
                                 <th>Harga Satuan</th>
-                                <th>Valuasi Stok</th>
-                                <th>Kondisi</th>
+                                <th>Valuasi</th>
+                                <th>Status Kondisi</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -235,9 +215,9 @@ $result = $conn->query("SELECT * FROM barang ORDER BY nama ASC");
                                 data-id="<?= $d[$primary_key] ?>" data-nama="<?= $d['nama'] ?>" 
                                 data-stok="<?= $d['stok'] ?>" data-harga="<?= $d['harga'] ?>" 
                                 data-baik="<?= $d['stok_baik'] ?>" data-rusak="<?= $d['stok_rusak'] ?>">
-                                <td><?= $no++ ?></td>
-                                <td><span class="text-white fw-semibold"><?= $d['nama'] ?></span></td>
-                                <td><span class="badge bg-light text-dark px-2"><?= $d['stok'] ?></span></td>
+                                <td><span class="text-muted small"><?= $no++ ?></span></td>
+                                <td><span class="text-white fw-bold"><?= $d['nama'] ?></span></td>
+                                <td><span class="badge badge-stok px-2 py-1"><?= $d['stok'] ?></span></td>
                                 <td>Rp <?= number_format($d['harga'], 0, ',', '.') ?></td>
                                 <td class="text-primary fw-bold">Rp <?= number_format($d['stok'] * $d['harga'], 0, ',', '.') ?></td>
                                 <td>
@@ -245,13 +225,13 @@ $result = $conn->query("SELECT * FROM barang ORDER BY nama ASC");
                                     <span class="badge badge-rusak">R: <?= $d['stok_rusak'] ?></span>
                                 </td>
                                 <td class="text-center">
-                                    <a href="?edit=<?= $d[$primary_key] ?>" class="btn btn-warning btn-sm" onclick="event.stopPropagation();">
+                                    <a href="?edit=<?= $d[$primary_key] ?>" class="btn btn-outline-warning btn-sm" onclick="event.stopPropagation();">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 </td>
                             </tr>
                             <?php endwhile; else: ?>
-                            <tr><td colspan="7" class="text-center py-5 text-muted">Belum ada data barang.</td></tr>
+                            <tr><td colspan="7" class="text-center py-5 text-muted small">Belum ada data barang dalam database.</td></tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -263,44 +243,51 @@ $result = $conn->query("SELECT * FROM barang ORDER BY nama ASC");
 
 <div class="modal fade" id="modalDetail" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content card border-0">
-            <div class="modal-header border-bottom border-secondary">
-                <h5 class="modal-title fw-bold text-white"><i class="fas fa-info-circle me-2"></i>Rincian Barang</h5>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold"><i class="fas fa-info-circle me-2 text-primary"></i>Rincian Inventaris</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <div class="text-center mb-4">
-                    <h2 id="detail-nama" class="fw-bold mb-0"></h2>
-                    <p class="text-muted">Informasi Detail Inventaris</p>
+                    <h2 id="detail-nama" class="fw-bold mb-0 text-white"></h2>
+                    <p class="text-muted small">ID Barang: #<span id="detail-id"></span></p>
                 </div>
                 <div class="row g-3">
                     <div class="col-6">
-                        <div class="p-3 rounded-4 bg-white bg-opacity-5 text-center">
-                            <small class="text-muted d-block">Stok Total</small>
+                        <div class="p-3 rounded-3 bg-white bg-opacity-5 text-center">
+                            <small class="text-muted d-block mb-1">Stok Total</small>
                             <span id="detail-stok" class="fs-4 fw-bold text-white"></span>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="p-3 rounded-4 bg-white bg-opacity-5 text-center">
-                            <small class="text-muted d-block">Harga Unit</small>
+                        <div class="p-3 rounded-3 bg-white bg-opacity-5 text-center">
+                            <small class="text-muted d-block mb-1">Harga Satuan</small>
                             <span id="detail-harga" class="fs-5 fw-bold text-primary"></span>
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="p-3 rounded-4 bg-primary bg-opacity-10 text-center border border-primary border-opacity-25">
-                            <small class="text-primary d-block fw-bold">Estimasi Nilai Stok</small>
+                        <div class="p-3 rounded-3 bg-primary bg-opacity-10 text-center border border-primary border-opacity-25">
+                            <small class="text-primary d-block fw-bold mb-1">Total Nilai Aset</small>
                             <span id="detail-total" class="fs-4 fw-bold text-white"></span>
                         </div>
                     </div>
                     <div class="col-6 text-center">
-                        <label class="text-success fw-bold">Kondisi Baik</label>
-                        <h4 id="detail-baik" class="text-white"></h4>
+                        <div class="p-2 border border-success border-opacity-25 rounded-3">
+                            <small class="text-success fw-bold d-block">Kondisi Baik</small>
+                            <h4 id="detail-baik" class="text-white mb-0"></h4>
+                        </div>
                     </div>
                     <div class="col-6 text-center">
-                        <label class="text-danger fw-bold">Kondisi Rusak</label>
-                        <h4 id="detail-rusak" class="text-white"></h4>
+                        <div class="p-2 border border-danger border-opacity-25 rounded-3">
+                            <small class="text-danger fw-bold d-block">Kondisi Rusak</small>
+                            <h4 id="detail-rusak" class="text-white mb-0"></h4>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>
@@ -310,9 +297,9 @@ $result = $conn->query("SELECT * FROM barang ORDER BY nama ASC");
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 $(document).ready(function() {
-    // Modal Detail Trigger
     $('.view-detail').click(function() {
         const d = $(this).data();
+        $('#detail-id').text(d.id);
         $('#detail-nama').text(d.nama);
         $('#detail-stok').text(d.stok + ' Unit');
         $('#detail-harga').text('Rp ' + new Intl.NumberFormat('id-ID').format(d.harga));
@@ -322,14 +309,13 @@ $(document).ready(function() {
         $('#modalDetail').modal('show');
     });
 
-    // Validasi Form Edit
     $('#formEdit').submit(function(e) {
         let max = parseInt($('#maxStokValue').val());
         let baik = parseInt($('#input_baik').val()) || 0;
         let rusak = parseInt($('#input_rusak').val()) || 0;
 
         if ((baik + rusak) > max) {
-            alert("❌ Kesalahan: Total Baik ("+baik+") + Rusak ("+rusak+") melebihi total stok yang ada ("+max+")!");
+            alert("❌ Gagal: Jumlah Baik + Rusak tidak boleh melebihi stok total (" + max + ")!");
             return false;
         }
         return true;
