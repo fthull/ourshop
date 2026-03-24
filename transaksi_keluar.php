@@ -4,7 +4,7 @@ include 'auth.php';
 include 'alert-helper.php';
 
 if (!isset($_SESSION['login'])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit;
 }
 

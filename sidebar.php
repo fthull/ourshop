@@ -4,7 +4,7 @@
             <i class="fas fa-cubes floating-icon"></i>
         </div>
         <div class="brand-text">
-            <h4 class="fw-bold mb-0">F-ZONE</h4>
+            <h4 class="fw-bold mb-0">OurShop</h4>
             <small class="text-uppercase tracking-widest">Company</small>
         </div>
     </div>
@@ -144,7 +144,6 @@
     transform: translateX(5px);
 }
 
-/* Active State - Mengikuti Tema Login */
 .nav-sidebar .nav-link.active {
     background: rgba(59, 130, 246, 0.1) !important;
     border: 1px solid rgba(59, 130, 246, 0.4);

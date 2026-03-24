@@ -4,7 +4,7 @@ include "auth.php";
 $active_page = 'dashboard';
 
 if (!isset($_SESSION['login'])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit;
 }
 
@@ -30,8 +30,8 @@ $transaksi_terakhir = $conn->query("SELECT t.tanggal, b.nama, t.stok, b.harga, (
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | F-ZONE COMPANY</title>
-    
+    <title>Dashboard | OurShop</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -131,7 +131,7 @@ $transaksi_terakhir = $conn->query("SELECT t.tanggal, b.nama, t.stok, b.harga, (
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <h2 class="fw-bold mb-1">Overview Dashboard</h2>
-                <p class="text-muted small mb-0">Monitor aktivitas inventaris <strong>F-Zone</strong>.</p>
+                <p class="text-muted small mb-0">Monitor aktivitas inventaris <strong>OurShop</strong>.</p>
             </div>
             <div class="text-end">
                 <span class="badge bg-dark text-white shadow-sm p-2 px-3 border border-secondary">
@@ -257,7 +257,7 @@ $transaksi_terakhir = $conn->query("SELECT t.tanggal, b.nama, t.stok, b.harga, (
         <div class="modal-content bg-dark border-secondary text-white" style="border-radius: 20px;">
             <div class="modal-body p-4" id="notaArea">
                 <div class="text-center mb-4">
-                    <h4 class="fw-bold mb-0 text-primary">F-ZONE COMPANY</h4>
+                    <h4 class="fw-bold mb-0 text-primary">OurShop</h4>
                     <small class="text-muted">Inventory Digital Receipt</small>
                     <hr class="border-secondary">
                 </div>

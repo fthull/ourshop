@@ -6,5 +6,5 @@ session_unset();
 session_destroy();
 
 // Arahkan ke halaman login
-header("Location: login.php");
+header("Location: index.php");
 exit;

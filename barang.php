@@ -5,7 +5,7 @@ include "alert-helper.php";
 
 $active_page = 'barang';
 if (!isset($_SESSION['login'])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit;
 }
 

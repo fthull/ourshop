@@ -3,7 +3,7 @@ include 'conn.php';
 include 'auth.php';
 
 if (!isset($_SESSION['login'])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit;
 }
 

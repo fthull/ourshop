@@ -52,6 +52,9 @@ if (isset($_POST['update'])) {
 // --- LOGIC: DELETE ---
 if (isset($_POST['hapus'])) {
     $id_user = $_POST['id_user'];
+    // First delete related transactions
+    mysqli_query($conn, "DELETE FROM transaksi WHERE id_user='$id_user'");
+    // Then delete the user
     if (mysqli_query($conn, "DELETE FROM users WHERE id_user='$id_user'")) {
         setAlert('success', 'Petugas berhasil dihapus!');
     } else {
